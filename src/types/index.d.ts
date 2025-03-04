@@ -15,3 +15,5 @@ export interface FileSystemState {
   currentFileId: string | null;
   openFiles: string[];
 }
+
+export interface AppState {}
