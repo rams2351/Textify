@@ -43,9 +43,34 @@ export const fileSystemSlice = createSlice({
     },
 
     deleteItem: (state, action: PayloadAction<string>) => {
+      const idToDelete = action.payload;
+      let idsToRemove = new Set<string>([idToDelete]);
+
+      const collectIds = (nodes: FileNode[]) => {
+        for (const node of nodes) {
+          idsToRemove.add(node.id);
+          if (node.children) {
+            node.children.forEach((child) => collectIds([child]));
+          }
+        }
+      };
+
+      const findAndCollect = (nodes: FileNode[]) => {
+        for (const node of nodes) {
+          if (node.id === idToDelete) {
+            if (node.type === "folder") collectIds([node]);
+            break;
+          } else if (node.children) {
+            findAndCollect(node.children);
+          }
+        }
+      };
+
+      findAndCollect(state.root);
+
       const removeNode = (nodes: FileNode[]): FileNode[] => {
         return nodes.filter((node) => {
-          if (node.id === action.payload) return false;
+          if (idsToRemove.has(node.id)) return false;
           if (node.children) node.children = removeNode(node.children);
           return true;
         });
@@ -53,13 +78,9 @@ export const fileSystemSlice = createSlice({
 
       state.root = removeNode(state.root);
 
-      // Remove deleted file/folder from active tabs
-      state.openTabs = state.openTabs.filter(
-        (tab) => tab.id !== action.payload
-      );
+      state.openTabs = state.openTabs.filter((tab) => !idsToRemove.has(tab.id));
 
-      // If the active tab is deleted, reset it or switch to another tab
-      if (state.activeTab === action.payload) {
+      if (state.activeTab && idsToRemove.has(state.activeTab)) {
         state.activeTab =
           state.openTabs.length > 0 ? state.openTabs[0].id : null;
       }

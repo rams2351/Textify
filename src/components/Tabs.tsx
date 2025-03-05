@@ -14,7 +14,9 @@ const Tabs: FC = () => {
         <div
           key={index}
           className={`px-4 py-2 cursor-pointer ${
-            activeTab === tab.id ? "bg-gray-800" : "bg-gray-950"
+            activeTab === tab.id
+              ? "bg-gray-800 border-l border-r text-amber-200 border-amber-50"
+              : "bg-gray-950"
           }`}
           onClick={() => dispatch(actions.openFile(tab))}
         >

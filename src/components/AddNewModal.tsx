@@ -40,6 +40,7 @@ const AddNewModal: FC<IProps> = ({ open, handleClose, type, parentId }) => {
     );
     handleClose();
     setName("");
+    setFileType("folder");
   }, [name, parentId, fileType]);
 
   const handleChange = useCallback((event: SelectChangeEvent) => {
