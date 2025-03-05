@@ -7,7 +7,6 @@ const isClient = typeof window !== "undefined";
 let mainReducer;
 
 const rootReducer = combineReducers({
-  // user:userSlice.reducer,
   fileSystem: fileSystemSlice.reducer,
 });
 
@@ -19,7 +18,7 @@ if (isClient) {
     key: "root",
     version: 1,
     storage: storage,
-    whitelist: ["file"],
+    whitelist: ["fileSystem"],
   };
 
   mainReducer = persistReducer(persistConfig, rootReducer);
@@ -28,7 +27,6 @@ if (isClient) {
 }
 
 export const actions = {
-  // ...userSlice.actions
   ...fileSystemSlice.actions,
 };
 

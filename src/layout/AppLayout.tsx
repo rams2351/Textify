@@ -16,7 +16,7 @@ const AppLayout: FC<PropsWithChildren> = ({ children }) => {
       <Toaster
         toastOptions={{
           position: "top-right",
-          className: "bg-primary text-white text-lg",
+          className: "bg-primary text-black text-lg",
           duration: 2000,
           error: {
             className: "border border-red-500 text-lg",

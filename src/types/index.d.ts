@@ -1,19 +1,47 @@
-export type FileType = "file" | "folder";
+declare module "react-redux" {
+  interface UseSelector {
+    <TState extends AppState, Selected = unknown>(
+      selector: (state: TState) => Selected,
+      equalityFnOrOptions?: EqualityFn<Selected> | any
+    ): Selected;
+  }
+}
 
-export interface FileItem {
+export type FileType = "folder" | "file";
+
+export interface FileNode {
   id: string;
   name: string;
   type: FileType;
-  parentId: string | null;
-  content?: string;
-  isExpanded?: boolean;
-  children?: string[];
+  children?: FileNode[];
+  parentId?: string | null;
 }
 
 export interface FileSystemState {
-  entities: Record<string, FileItem>;
-  currentFileId: string | null;
-  openFiles: string[];
+  root: FileNode[];
+  openFolders: Record<string, boolean>;
+  openTabs: { id: string; name: string }[];
+  activeTab: string | null;
+  fileContents: Record<string, string>;
 }
 
-export interface AppState {}
+export interface AppState {
+  fileSystem: FileSystemState;
+}
+
+export interface IAddModal {
+  open: boolean;
+  type?: FileType;
+  parentId?: string | null;
+}
+
+export interface ContextMenuOption {
+  label: string;
+  action: () => void;
+}
+
+export interface ContextMenuState {
+  x: number;
+  y: number;
+  options: ContextMenuOption[];
+}

@@ -10,6 +10,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: "rgb(255 251 235 )",
+        secondary: "#ffffff",
+      },
       screens: {
         sm: "640px",
         // => @media (min-width: 640px) { ... }
