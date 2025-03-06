@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@mui/material";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from "redux/slices/reducer";
@@ -10,18 +10,18 @@ const FileEditor: FC = () => {
   const activeTab = useSelector((state) => state.fileSystem.activeTab);
   const fileContents = useSelector((state) => state.fileSystem.fileContents);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (!activeTab) return;
     dispatch(
       actions.updateFileContent({ id: activeTab, content: e.target.value })
     );
-  };
+  },[activeTab]);
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     if (!activeTab) return;
     dispatch(actions.saveFile(activeTab));
     toast.success("File saved successfully!");
-  };
+  },[activeTab]);
 
   if (!activeTab)
     return (
