@@ -30,7 +30,7 @@ A Next.js-based file explorer with a nested folder and file system. It supports 
 
 ```bash
 git clone https://github.com/rams2351/Textify.git
-cd textify-main
+cd textify
 ```
 
 ### **2️⃣ Install Dependencies**
